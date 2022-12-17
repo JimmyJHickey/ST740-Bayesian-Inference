@@ -1,0 +1,547 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Homework 1},
+  pdfauthor={Jimmy Hickey},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Homework 1}
+\author{Jimmy Hickey}
+\date{}
+
+\begin{document}
+\maketitle
+
+\textbf{1. Assume
+\(Y_{1}, \dots , Y_{n} \mid \theta \sim \text{Uniform}(0,\theta)\)
+independent over \(i\).}
+
+\textbf{(a) Identify a conjugate family of prior distributions for
+\(\theta\) and derive the posterior}
+
+Our joint likelihood is
+
+\begin{align*}
+f(y_{1} , \dots , y_{n} \mid \theta) & = \prod_{i=1}^{n} \frac{ 1 }{  \theta-0} \mathbb{I}(0 \leq y_{i} \leq \theta) \\
+& = \frac{  1}{ \theta^{n} } \mathbb{I}(0 \leq y_{(1)}) \mathbb{I}(y_{(n)} \leq \theta).
+\end{align*}
+
+Then we take the conjugate prior
+\(\theta \sim \text{Pareto}(\theta_{m}, \alpha)\) to get the posterior
+
+\begin{align*}
+p(\theta \mid Y_{1} , \dots , Y_{n}) & = f(y_{1} , \dots , y_{n} \mid \theta) \pi(\theta) \\
+& = \frac{  1}{ \theta^{n} } \mathbb{I}(0 \leq y_{(1)}) \mathbb{I}(y_{(n)} \leq \theta) \frac{\alpha \theta_{m}^{\alpha}  }{ \theta^{\alpha+1} } \mathbb{I}(\theta_{m} \leq \theta) \\
+& \propto \frac{1  }{ \theta^{(n+\alpha) + 1} } \mathbb{I}(y_{(n)} \leq \theta) \mathbb{I}(\theta_{m} \leq \theta) \\
+& =  \frac{1  }{ \theta^{(n+\alpha) + 1} } \mathbb{I}(\max (y_{(n)}, \theta_{m}) \leq \theta).
+\end{align*}
+
+This is the kernel of a Pareto distribution. Thus,
+\(\theta \mid Y_{1}, \dots Y_{n} \sim \text{Pareto}(\max(y_{(n)}, \theta_{m}), n + \alpha)\).
+
+\textbf{(b) Now assume you observe \(n=50\) samples as below}
+
+\begin{verbatim}
+> set.seed(919)
+> Y <- runif(50,0,10)
+> range(Y)
+[1] 0.05161189 9.75337425
+\end{verbatim}
+
+\textbf{Use an uninformative prior and summarize the posterior in a
+table and plot}
+
+An informative Pareto prior would have scale parameter \(\theta_{m}\)
+small (which would widen the support) and shape parameter \(\alpha\)
+small (which would blow up mean and variance since \(\alpha < 1 < 2\)).
+Take our prior to be \(\theta \sim \text{Pareto}(0.1, 0.1)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# import EnvStats for rpareto }
+\FunctionTok{library}\NormalTok{(EnvStats)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{919}\NormalTok{)}
+\NormalTok{n }\OtherTok{=} \DecValTok{50}
+\NormalTok{true\_theta }\OtherTok{=} \DecValTok{10}
+\NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n,}\DecValTok{0}\NormalTok{,true\_theta)}
+\NormalTok{S }\OtherTok{=} \DecValTok{10000}
+\NormalTok{theta\_m }\OtherTok{=}\NormalTok{ alpha }\OtherTok{=} \FloatTok{0.1}
+\NormalTok{theta\_uninformative }\OtherTok{=} \FunctionTok{rpareto}\NormalTok{(S, }\FunctionTok{max}\NormalTok{(}\FunctionTok{max}\NormalTok{(Y), theta\_m), n }\SpecialCharTok{+}\NormalTok{ alpha)}
+\NormalTok{df }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(theta\_uninformative)}
+\FunctionTok{ggplot}\NormalTok{(df) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{theta\_uninformative, }\AttributeTok{color=}\StringTok{"Uninformative"}\NormalTok{), }\AttributeTok{alpha=}\FloatTok{0.3}\NormalTok{, }\AttributeTok{fill=}\StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"theta"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.title=}\FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hickey_hw1_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theta\_mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(theta\_uninformative)}
+\NormalTok{theta\_sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(theta\_uninformative)}
+\NormalTok{theta\_lower }\OtherTok{=}\NormalTok{ theta\_mean }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ theta\_sd}
+\NormalTok{theta\_upper }\OtherTok{=}\NormalTok{ theta\_mean }\SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ theta\_sd}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule
+& Posterior Mean & Posterior SD & 95\% credible set\tabularnewline
+\midrule
+\endhead
+uninformative \(\theta\) & 9.95 & 0.20 & (9.56, 10.35)\tabularnewline
+\bottomrule
+\end{longtable}
+
+\textbf{(c) Is the posterior sensitive to the prior?}
+
+Now compare the uninformative prior of
+\(\theta \sim \text{Pareto}(0.1, 0.1)\) to something informative such as
+\(\theta \sim \text{Pareto}(1/5,100)\). Note that this gives a prior
+mean of \(10 \cdot 9/(10-1) = 10\) and a posterior variance of
+\(9^{2}\cdot 10 / \{ (10-1)^{2}(10-2) \} = 1.25\)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# import EnvStats for rpareto }
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{919}\NormalTok{)}
+\NormalTok{n }\OtherTok{=} \DecValTok{50}
+\NormalTok{true\_theta }\OtherTok{=} \DecValTok{10}
+\NormalTok{Y }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(n,}\DecValTok{0}\NormalTok{,true\_theta)}
+\NormalTok{S }\OtherTok{=} \DecValTok{10000}
+\NormalTok{theta\_m }\OtherTok{=} \DecValTok{9}
+\NormalTok{alpha }\OtherTok{=} \DecValTok{10}
+\NormalTok{theta\_informative }\OtherTok{=} \FunctionTok{rpareto}\NormalTok{(S, }\FunctionTok{max}\NormalTok{(}\FunctionTok{max}\NormalTok{(Y), theta\_m), n }\SpecialCharTok{+}\NormalTok{ alpha)}
+\NormalTok{df}\SpecialCharTok{$}\NormalTok{theta\_informative }\OtherTok{=}\NormalTok{ theta\_informative}
+
+\FunctionTok{ggplot}\NormalTok{(df) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{theta\_uninformative, }\AttributeTok{color=}\StringTok{"Uninformative"}\NormalTok{), }\AttributeTok{alpha=}\FloatTok{0.3}\NormalTok{, }\AttributeTok{fill=}\StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{theta\_informative, }\AttributeTok{color=}\StringTok{"Informative"}\NormalTok{), }\AttributeTok{alpha=}\FloatTok{0.3}\NormalTok{, }\AttributeTok{fill=}\StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"theta"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.title=}\FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hickey_hw1_files/figure-latex/unnamed-chunk-2-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theta\_mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(theta\_informative)}
+\NormalTok{theta\_sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(theta\_informative)}
+\NormalTok{theta\_lower }\OtherTok{=}\NormalTok{ theta\_mean }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ theta\_sd}
+\NormalTok{theta\_upper }\OtherTok{=}\NormalTok{ theta\_mean }\SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ theta\_sd}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule
+& Posterior Mean & Posterior SD & 95\% credible set\tabularnewline
+\midrule
+\endhead
+uninformative prior \(\theta\) & 9.95 & 0.20 & (9.56,
+10.35)\tabularnewline
+informative prior \(\theta\) & 9.92 & 0.17 & (9.59,
+10.25)\tabularnewline
+\bottomrule
+\end{longtable}
+
+Switching to an informative prior centered on the true value of
+\(\theta\) slightly reduced the posterior standard deviation and in turn
+the length of the credible set.
+
+\textbf{(d) What is the posterior predictive probability that
+\(Y_{n+1}\) will be a new record, i.e.,}
+
+\[
+\text{Prob}(Y_{n+1} > \max\{ Y_{1}, \dots Y_{n} \} \mid Y_{1}, \dots Y_{n})
+\]
+
+We first need to PDF of the posterior predictive distribution
+
+\begin{align*}
+f_{Y_{n+1} \mid Y_{1}, \dots Y_{n}} & = \int_{0}^{\infty} f(Y_{n+1} \mid \theta) p(\theta \mid y_{1}, \dots , y_{n}) \ d\theta \\
+  & = \int_{0}^{\infty} \frac{  1}{\theta - 0 } \frac{ (\alpha+n) \max(Y_{(n)}, \theta_{m})^{\alpha+n} }{  \theta^{(\alpha+n)+1}} \mathbb{I}(\max(Y_{(n)}) \leq \theta) \ d\theta \\
+  & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \int_{0}^{\infty} \frac{(\alpha+n+1)\max(Y_{(n)} ,\theta_{m})^{\alpha+n+1}  }{  \theta^{(\alpha+n+1)+1}} \mathbb{I}(\max(Y_{(n)}, \theta_{m}) \leq \theta) \ d\theta \\
+   & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \cdot 1,
+\end{align*}
+
+where the last step comes from integrating a Pareto PDF over its
+support. Now we can calculate the CDF,
+
+\begin{align*}
+F_{Y_{n+1}\mid Y_{1} , \dots,Y_{n}}(y) & = \int_{0}^{y} \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \ dy_{n+1} \\
+  & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{y  }{ \max(Y_{(n)}, \theta_{m}) }.
+\end{align*}
+
+Thus,
+
+\begin{align*}
+\text{Prob}(Y_{n+1} > Y_{(n)} \mid Y_{1}, \dots Y_{n}) & = 1-F_{Y_{n+1}\mid Y_{1} , \dots,Y_{n}}(Y_{(n)}) \\
+  & = 1 - \frac{\alpha +n  }{ \alpha + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, \theta_{m})}.
+\end{align*}
+
+\textbf{(e) Why is (d) not exactly \(1/(n+1)\), or is it?}
+
+This is not exactly \(1/(n+1)\) because of the influence of the
+\(\theta\) prior. If we set the prior parameters
+\(\alpha = \theta_{m} = 0\) then we get,
+
+\begin{align*}
+\text{Prob}(Y_{n+1} > Y_{(n)} \mid Y_{1}, \dots Y_{n}) & 1 - \frac{\alpha +n  }{ \alpha + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, \theta_{m})} \\
+  & = 1 - \frac{0 +n  }{ 0 + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, 0)} \\
+  & = 1 - \frac{  n}{n+1  } \\
+  & =\frac{ 1 }{  n+1}.
+\end{align*}
+
+\textbf{2. Download the daily weather data from RDU Airport}
+
+\textbf{(a) Plot the sample correlation between daily minimum (TMIN) and
+maximum (TMAX) temperature by month.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(scales)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{file }\OtherTok{\textless{}{-}} \StringTok{"https://www4.stat.ncsu.edu/\textasciitilde{}bjreich/ST740/RDU.csv"}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\FunctionTok{url}\NormalTok{(file))}
+\NormalTok{TMAX }\OtherTok{\textless{}{-}}\NormalTok{ dat[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\DecValTok{10}
+\NormalTok{TMIN }\OtherTok{\textless{}{-}}\NormalTok{ dat[,}\DecValTok{3}\NormalTok{]}\SpecialCharTok{/}\DecValTok{10}
+\NormalTok{MONTH }\OtherTok{\textless{}{-}}\NormalTok{ dat[,}\DecValTok{4}\NormalTok{]}
+\NormalTok{DATE }\OtherTok{=}\NormalTok{ dat[,}\DecValTok{1}\NormalTok{]}
+\NormalTok{weather }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{date =}\NormalTok{ DATE,}\AttributeTok{temp\_max =}\NormalTok{ TMAX,}\AttributeTok{temp\_min =}\NormalTok{ TMIN,}\AttributeTok{month =}\NormalTok{ MONTH)}
+
+\NormalTok{weather }\OtherTok{=}\NormalTok{ weather }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(month) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{correlation =} \FunctionTok{cor}\NormalTok{(temp\_max,temp\_min))}
+
+\FunctionTok{ggplot}\NormalTok{(weather, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{month, }\AttributeTok{y=}\NormalTok{correlation)) }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Correlation by Month"}\NormalTok{)}\SpecialCharTok{+} \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks=} \FunctionTok{pretty\_breaks}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hickey_hw1_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\textbf{(b) Let \(Y = (T_{MIN}, T_{MAX})\) be a bivariate response and
+fit the model
+\(Y \mid \Sigma \sim \text{Normal}(\overline{ Y }, \Sigma)\) where
+\(\overline{ Y }\) is the sample mean of \(Y\) (Say it is fixed and
+known) and \(\Sigma\) is the unknown \(2 \times 2\) covariance matrix.
+Specify a conjugate family of prior distribution for \(\Sigma\) and
+derive the corresponding posterior.}
+
+\textbf{Hint: Recall that for vector \(a\) and square matrices \(B\) and
+\(C\) that
+\(a^{\top}Ba = \text{tr}( a^{T} B a ) = \text{tr}( Baa^{\top} )\) and
+\(\text{tr}( a^{\top}B ) + \text{tr}(a^{\top} C ) = \text{tr}(a^{\top} (B+C) )\).}
+
+The data likelihood is
+
+\begin{align*}
+f(Y \mid \Sigma) & \propto \mid \Sigma \mid^{-n/2} \exp \Big\{  -\frac{ 1 }{  2}(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\}.
+\end{align*}
+
+Then take a \(\Sigma \sim \text{InverseWishart}(\Psi, \nu)\) prior. The
+posterior is
+
+\begin{align*}
+p(\Sigma \mid Y) & \propto \mid \Sigma \mid^{-n/2} \exp \Big\{  -\frac{ 1 }{  2}(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\}
+  \mid \Sigma \mid ^{-(\nu + p + 1) / 2} 
+  \exp \Big\{  -\frac{ 1 }{ 2 } \text{tr}(\Psi \Sigma^{-1}  ) \Big\} \\
+  & = \exp \Big(  -\frac{ 1 }{  2}\Big[ \text{tr}\Big\{(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\} + \text{tr}(\Psi \Sigma^{-1})  \Big]\Big)
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big(  -\frac{ 1 }{  2}\Big[ \text{tr}\Big\{ \Sigma^{-1} (Y - \overline{ Y })(Y - \overline{ Y })^{\top}\Big\} + \text{tr}(\Sigma^{-1} \Psi\Big)  \Big]\Big)
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big\{  -\frac{ 1 }{  2}\Big( \text{tr}\Big[ \Sigma^{-1} \Big\{(Y - \overline{ Y })(Y - \overline{ Y })^{\top}+ \Psi  \Big\} \Big]  \Big)\Big\} 
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big\{  -\frac{ 1 }{  2}\Big( \text{tr}\Big[ \Big\{ \Psi + (Y - \overline{ Y })(Y - \overline{ Y })^{\top} \Big\} \Sigma^{-1} \Big]  \Big)\Big\} 
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} .
+
+\end{align*}
+
+Thus, the posterior is
+\(\Sigma \mid Y \sim \text{InverseWishart}( \Psi +( Y - \overline{ Y })(Y - \overline{ Y })^{\top} , \nu + n)\).
+
+\textbf{(c) Select an uninformative prior distribution and summarize the
+induced prior distribution on the correlation
+\(\rho = \Sigma_{12} / \sqrt{ \Sigma_{11}\Sigma_{22} }\) in figure.}
+
+We choose an uninformative prior of \(\psi = I_{p}\) and \(\nu = p+1\),
+which is a \(U_{p}(0,1)\). We sample our \(\Sigma\)'s from the posterior
+distribution derived in part (a).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MCMCpack)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{919}\NormalTok{)}
+\NormalTok{S   }\OtherTok{\textless{}{-}} \DecValTok{100000}
+\NormalTok{p }\OtherTok{=} \DecValTok{2}
+
+\CommentTok{\# https://www4.stat.ncsu.edu/\textasciitilde{}bjreich/ST740/covariance.html}
+\CommentTok{\# these values of nu and Psi put a uniform(0,1) prior on Sigma}
+\NormalTok{nu }\OtherTok{=}\NormalTok{ p}\SpecialCharTok{+}\DecValTok{1}
+\NormalTok{Psi}\OtherTok{=} \FunctionTok{diag}\NormalTok{(p)}
+\NormalTok{n }\OtherTok{=} \FunctionTok{length}\NormalTok{(TMAX)}
+
+\NormalTok{y }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\FunctionTok{c}\NormalTok{(weather}\SpecialCharTok{$}\NormalTok{temp\_min, weather}\SpecialCharTok{$}\NormalTok{temp\_max), }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(n,}\DecValTok{2}\NormalTok{))}
+\NormalTok{ybar }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{mean}\NormalTok{(y[,}\DecValTok{1}\NormalTok{]), }\FunctionTok{mean}\NormalTok{(y[,}\DecValTok{2}\NormalTok{])), }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+
+\NormalTok{sum\_mat }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(p,p))}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{}
+\NormalTok{  sum\_mat }\OtherTok{=}\NormalTok{ sum\_mat }\SpecialCharTok{+} \FunctionTok{t}\NormalTok{(y[i,] }\SpecialCharTok{{-}}\NormalTok{ ybar) }\SpecialCharTok{\%*\%}\NormalTok{ (y[i,] }\SpecialCharTok{{-}}\NormalTok{ ybar)}
+\NormalTok{\}}
+
+
+
+\NormalTok{Sig }\OtherTok{\textless{}{-}} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FunctionTok{c}\NormalTok{(S,p,p))}
+\NormalTok{SigInv }\OtherTok{\textless{}{-}}\NormalTok{ Sig}
+
+\ControlFlowTok{for}\NormalTok{(s }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{S)\{}
+  \CommentTok{\#  Sample inverse gamma from wishart (with inverse params)}
+\NormalTok{   SigInv[s,,] }\OtherTok{\textless{}{-}} \FunctionTok{rwish}\NormalTok{(nu }\SpecialCharTok{+}\NormalTok{ n, }\FunctionTok{solve}\NormalTok{(Psi }\SpecialCharTok{+}\NormalTok{ sum\_mat))}
+   
+   \CommentTok{\# invert to get back sigma }
+\NormalTok{   Sig[s,,]    }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(SigInv[s,,])}
+\NormalTok{\}}
+
+\NormalTok{rho }\OtherTok{=}\NormalTok{ Sig[,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(Sig[,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ Sig[,}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+
+\NormalTok{rho\_mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(rho)}
+\NormalTok{rho\_sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(rho)}
+\NormalTok{rho\_lower }\OtherTok{=}\NormalTok{ rho\_mean }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ rho\_sd}
+\NormalTok{rho\_upper }\OtherTok{=}\NormalTok{ rho\_mean }\SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ rho\_sd}
+
+
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(rho)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_histogram}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{rho, }\AttributeTok{color=}\StringTok{"Uninformative"}\NormalTok{), }\AttributeTok{alpha=}\FloatTok{0.3}\NormalTok{, }\AttributeTok{fill=}\StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"rho"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.title=}\FunctionTok{element\_blank}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hickey_hw1_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# paste0(round(rho\_mean, digits=3), " | ", round(rho\_sd, digits=3), " | (", round(rho\_lower, digits=3), " , ", round(rho\_upper, digits=3), ") |")}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule
+& Posterior Mean & Posterior SD & 95\% credible set\tabularnewline
+\midrule
+\endhead
+uninformative prior \(\rho\) & 0.895 & 0.001 & (0.892 ,
+0.897)\tabularnewline
+\bottomrule
+\end{longtable}
+
+Since the 95\% credible set does not contain 0, there is statistically
+signification correlation between the variables.
+
+\textbf{(d) Fit the model to the temperature data separately by month
+(including monthly \(\overline{Y }\)) and plot the posterior
+distribution of the correlation between \(T_{MIN}\) and \(T_{MAX}\)
+\((\rho)\) by month. Is there a statistically significant correlation
+between these variables? Are there statistically significant differences
+by month?}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{919}\NormalTok{)}
+\NormalTok{S   }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{p }\OtherTok{=} \DecValTok{2}
+
+\CommentTok{\# https://www4.stat.ncsu.edu/\textasciitilde{}bjreich/ST740/covariance.html}
+\CommentTok{\# these values of nu and Psi put a uniform(0,1) prior on Sigma}
+\NormalTok{nu }\OtherTok{=}\NormalTok{ p}\SpecialCharTok{+}\DecValTok{1}
+\NormalTok{Psi}\OtherTok{=} \FunctionTok{diag}\NormalTok{(p)}
+\NormalTok{n }\OtherTok{=} \FunctionTok{length}\NormalTok{(TMAX)}
+\NormalTok{rho\_df }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{()}
+\NormalTok{rho}\SpecialCharTok{$}\NormalTok{rho}\OtherTok{=}\DecValTok{0}
+\NormalTok{rho}\SpecialCharTok{$}\NormalTok{month}\OtherTok{=}\DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{(month }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{12}\NormalTok{)\{}
+
+\NormalTok{  weather\_month }\OtherTok{=}\NormalTok{ weather }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(month }\SpecialCharTok{==}\NormalTok{ month) }
+\NormalTok{  y }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\FunctionTok{c}\NormalTok{(weather\_month}\SpecialCharTok{$}\NormalTok{temp\_min, weather\_month}\SpecialCharTok{$}\NormalTok{temp\_max), }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(n,}\DecValTok{2}\NormalTok{))}
+\NormalTok{  ybar }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{mean}\NormalTok{(y[,}\DecValTok{1}\NormalTok{]), }\FunctionTok{mean}\NormalTok{(y[,}\DecValTok{2}\NormalTok{])), }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+  
+\NormalTok{  sum\_mat }\OtherTok{=} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{, }\AttributeTok{dim=}\FunctionTok{c}\NormalTok{(p,p))}
+  
+  \ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{}
+\NormalTok{    sum\_mat }\OtherTok{=}\NormalTok{ sum\_mat }\SpecialCharTok{+} \FunctionTok{t}\NormalTok{(y[i,] }\SpecialCharTok{{-}}\NormalTok{ ybar) }\SpecialCharTok{\%*\%}\NormalTok{ (y[i,] }\SpecialCharTok{{-}}\NormalTok{ ybar)}
+\NormalTok{  \}}
+  
+  
+  
+\NormalTok{  Sig }\OtherTok{\textless{}{-}} \FunctionTok{array}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FunctionTok{c}\NormalTok{(S,p,p))}
+\NormalTok{  SigInv }\OtherTok{\textless{}{-}}\NormalTok{ Sig}
+  
+  \ControlFlowTok{for}\NormalTok{(s }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{S)\{}
+    \CommentTok{\#  Sample inverse gamma from wishart (with inverse params)}
+\NormalTok{     SigInv[s,,] }\OtherTok{\textless{}{-}} \FunctionTok{rwish}\NormalTok{(nu }\SpecialCharTok{+}\NormalTok{ n, }\FunctionTok{solve}\NormalTok{(Psi }\SpecialCharTok{+}\NormalTok{ sum\_mat))}
+     
+     \CommentTok{\# invert to get back sigma }
+\NormalTok{     Sig[s,,]    }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(SigInv[s,,])}
+\NormalTok{  \}}
+  
+\NormalTok{  rho }\OtherTok{=}\NormalTok{ Sig[,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(Sig[,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ Sig[,}\DecValTok{2}\NormalTok{,}\DecValTok{2}\NormalTok{])}
+\NormalTok{  temp\_df }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{rho=}\NormalTok{rho, }\AttributeTok{month=}\FunctionTok{rep}\NormalTok{(month, }\FunctionTok{length}\NormalTok{(rho)))}
+\NormalTok{  rho\_df }\OtherTok{=} \FunctionTok{rbind}\NormalTok{(rho\_df,temp\_df)}
+
+\NormalTok{  rho\_mean }\OtherTok{=} \FunctionTok{mean}\NormalTok{(rho)}
+\NormalTok{  rho\_sd }\OtherTok{=} \FunctionTok{sd}\NormalTok{(rho)}
+\NormalTok{  rho\_lower }\OtherTok{=}\NormalTok{ rho\_mean }\SpecialCharTok{{-}} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ rho\_sd}
+\NormalTok{  rho\_upper }\OtherTok{=}\NormalTok{ rho\_mean }\SpecialCharTok{+} \FunctionTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ rho\_sd}
+
+  \CommentTok{\# print(paste0("| month ", month , " | ",round(rho\_mean, digits=7), " | ", round(rho\_sd, digits=7), " | (", round(rho\_lower, digits=7), " , ", round(rho\_upper, digits=7), ") |"))}
+\NormalTok{\}}
+
+\NormalTok{rho\_df}\SpecialCharTok{$}\NormalTok{month }\OtherTok{=} \FunctionTok{as.factor}\NormalTok{(rho\_df}\SpecialCharTok{$}\NormalTok{month)}
+\FunctionTok{ggplot}\NormalTok{(rho\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{month, }\AttributeTok{y=}\NormalTok{rho)) }\SpecialCharTok{+} 
+ \FunctionTok{geom\_boxplot}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{hickey_hw1_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+Note that up to 3 significant digits, all of the posterior mean,
+standard deviations, and credible sets are the same for each month.
+
+\begin{longtable}[]{@{}rrrr@{}}
+\toprule
+\(\rho\) & Posterior Mean & Posterior SD & 95\% credible
+set\tabularnewline
+\midrule
+\endhead
+month 1 & 0.8952212 & 0.0011858 & (0.892897 , 0.8975453)\tabularnewline
+month 2 & 0.8952215 & 0.0011909 & (0.8928874 , 0.8975556)\tabularnewline
+month 3 & 0.8952159 & 0.0011936 & (0.8928765 , 0.8975552)\tabularnewline
+month 4 & 0.8952117 & 0.001183 & (0.8928931 , 0.8975304)\tabularnewline
+month 5 & 0.8952102 & 0.0011851 & (0.8928874 , 0.8975329)\tabularnewline
+month 6 & 0.8952032 & 0.0011935 & (0.892864 , 0.8975423)\tabularnewline
+month 7 & 0.8952212 & 0.0011699 & (0.8929282 , 0.8975141)\tabularnewline
+month 8 & 0.8952268 & 0.0011995 & (0.8928759 , 0.8975778)\tabularnewline
+month 9 & 0.8952331 & 0.0011971 & (0.8928869 , 0.8975794)\tabularnewline
+month 10 & 0.8952031 & 0.0011803 & (0.8928898 ,
+0.8975164)\tabularnewline
+month 11 & 0.8952115 & 0.0011852 & (0.8928885 ,
+0.8975345)\tabularnewline
+month 12 & 0.8952084 & 0.0011812 & (0.8928933 ,
+0.8975235)\tabularnewline
+\bottomrule
+\end{longtable}
+
+\end{document}

@@ -1,0 +1,351 @@
+---
+title: "Homework 1"
+author: "Jimmy Hickey"
+output: html_document
+---
+
+**1. Assume $Y_{1}, \dots , Y_{n} \mid \theta \sim \text{Uniform}(0,\theta)$ independent over $i$.**
+
+
+**(a) Identify a conjugate family of prior distributions for $\theta$ and derive the posterior**
+
+Our joint likelihood is
+
+\begin{align*}
+f(y_{1} , \dots , y_{n} \mid \theta) & = \prod_{i=1}^{n} \frac{ 1 }{  \theta-0} \mathbb{I}(0 \leq y_{i} \leq \theta) \\
+& = \frac{  1}{ \theta^{n} } \mathbb{I}(0 \leq y_{(1)}) \mathbb{I}(y_{(n)} \leq \theta).
+\end{align*}
+
+Then we take the conjugate prior $\theta \sim \text{Pareto}(\theta_{m}, \alpha)$ to get the posterior
+
+\begin{align*}
+p(\theta \mid Y_{1} , \dots , Y_{n}) & = f(y_{1} , \dots , y_{n} \mid \theta) \pi(\theta) \\
+& = \frac{  1}{ \theta^{n} } \mathbb{I}(0 \leq y_{(1)}) \mathbb{I}(y_{(n)} \leq \theta) \frac{\alpha \theta_{m}^{\alpha}  }{ \theta^{\alpha+1} } \mathbb{I}(\theta_{m} \leq \theta) \\
+& \propto \frac{1  }{ \theta^{(n+\alpha) + 1} } \mathbb{I}(y_{(n)} \leq \theta) \mathbb{I}(\theta_{m} \leq \theta) \\
+& =  \frac{1  }{ \theta^{(n+\alpha) + 1} } \mathbb{I}(\max (y_{(n)}, \theta_{m}) \leq \theta).
+\end{align*}
+
+This is the kernel of a Pareto distribution.
+Thus, $\theta \mid Y_{1}, \dots Y_{n} \sim \text{Pareto}(\max(y_{(n)}, \theta_{m}), n + \alpha)$.
+
+**(b) Now assume you observe $n=50$ samples as below**
+
+```
+> set.seed(919)
+> Y <- runif(50,0,10)
+> range(Y)
+[1] 0.05161189 9.75337425
+```
+
+**Use an uninformative prior and summarize the posterior in a table and plot**
+
+An informative Pareto prior would have scale parameter $\theta_{m}$ small (which would widen the support) and shape parameter $\alpha$ small (which would blow up mean and variance since $\alpha < 1 < 2$).
+Take our prior to be $\theta \sim \text{Pareto}(0.1, 0.1)$.
+
+
+```{r, warning=FALSE, message=FALSE}
+# import EnvStats for rpareto 
+library(EnvStats)
+library(ggplot2)
+set.seed(919)
+n = 50
+true_theta = 10
+Y <- runif(n,0,true_theta)
+S = 10000
+theta_m = alpha = 0.1
+theta_uninformative = rpareto(S, max(max(Y), theta_m), n + alpha)
+df = data.frame(theta_uninformative)
+ggplot(df) + 
+  geom_histogram(aes(x=theta_uninformative, color="Uninformative"), alpha=0.3, fill="blue") +
+  labs(x = "theta") +
+  theme(legend.title=element_blank())
+
+theta_mean = mean(theta_uninformative)
+theta_sd = sd(theta_uninformative)
+theta_lower = theta_mean - qnorm(0.975) * theta_sd
+theta_upper = theta_mean + qnorm(0.975) * theta_sd
+```
+
+
+|  | Posterior Mean | Posterior SD | 95% credible set |
+|------:|-----:|---------:|------:|
+|   uninformative $\theta$  |  9.95  |    0.20   |    (9.56, 10.35) |
+
+
+
+**(c) Is the posterior sensitive to the prior?**
+
+Now compare the uninformative prior of $\theta \sim \text{Pareto}(0.1, 0.1)$ to something informative such as $\theta \sim \text{Pareto}(1/5,100)$. Note that this gives a prior mean of $10 \cdot 9/(10-1) = 10$ and a posterior variance of $9^{2}\cdot 10 / \{ (10-1)^{2}(10-2) \} = 1.25$
+
+
+```{r, warning=FALSE, message=FALSE}
+# import EnvStats for rpareto 
+set.seed(919)
+n = 50
+true_theta = 10
+Y <- runif(n,0,true_theta)
+S = 10000
+theta_m = 9
+alpha = 10
+theta_informative = rpareto(S, max(max(Y), theta_m), n + alpha)
+df$theta_informative = theta_informative
+
+ggplot(df) + 
+  geom_histogram(aes(x=theta_uninformative, color="Uninformative"), alpha=0.3, fill="blue") +
+  geom_histogram(aes(x=theta_informative, color="Informative"), alpha=0.3, fill="red") +
+  labs(x = "theta") +
+  theme(legend.title=element_blank())
+
+theta_mean = mean(theta_informative)
+theta_sd = sd(theta_informative)
+theta_lower = theta_mean - qnorm(0.975) * theta_sd
+theta_upper = theta_mean + qnorm(0.975) * theta_sd
+```
+
+
+|  | Posterior Mean | Posterior SD | 95% credible set |
+|------:|-----:|---------:|------:|
+|  uninformative prior $\theta$  |  9.95  |    0.20   |    (9.56, 10.35) |
+|  informative prior $\theta$  |  9.92  |    0.17   |    (9.59, 10.25) |
+
+Switching to an informative prior centered on the true value of $\theta$ slightly reduced the posterior standard deviation and in turn the length of the credible set.
+
+**(d) What is the posterior predictive probability that $Y_{n+1}$ will be a new record, i.e.,**
+
+$$
+\text{Prob}(Y_{n+1} > \max\{ Y_{1}, \dots Y_{n} \} \mid Y_{1}, \dots Y_{n})
+$$
+
+We first need to PDF of the posterior predictive distribution
+
+\begin{align*}
+f_{Y_{n+1} \mid Y_{1}, \dots Y_{n}} & = \int_{0}^{\infty} f(Y_{n+1} \mid \theta) p(\theta \mid y_{1}, \dots , y_{n}) \ d\theta \\
+  & = \int_{0}^{\infty} \frac{  1}{\theta - 0 } \frac{ (\alpha+n) \max(Y_{(n)}, \theta_{m})^{\alpha+n} }{  \theta^{(\alpha+n)+1}} \mathbb{I}(\max(Y_{(n)}) \leq \theta) \ d\theta \\
+  & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \int_{0}^{\infty} \frac{(\alpha+n+1)\max(Y_{(n)} ,\theta_{m})^{\alpha+n+1}  }{  \theta^{(\alpha+n+1)+1}} \mathbb{I}(\max(Y_{(n)}, \theta_{m}) \leq \theta) \ d\theta \\
+   & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \cdot 1,
+\end{align*}
+
+where the last step comes from integrating a Pareto PDF over its support.
+Now we can calculate the CDF,
+
+\begin{align*}
+F_{Y_{n+1}\mid Y_{1} , \dots,Y_{n}}(y) & = \int_{0}^{y} \frac{\alpha + n  }{\alpha+ n +1  } \frac{1  }{ \max(Y_{(n)}, \theta_{m}) } \ dy_{n+1} \\
+  & = \frac{\alpha + n  }{\alpha+ n +1  } \frac{y  }{ \max(Y_{(n)}, \theta_{m}) }.
+\end{align*}
+
+Thus,
+
+\begin{align*}
+\text{Prob}(Y_{n+1} > Y_{(n)} \mid Y_{1}, \dots Y_{n}) & = 1-F_{Y_{n+1}\mid Y_{1} , \dots,Y_{n}}(Y_{(n)}) \\
+  & = 1 - \frac{\alpha +n  }{ \alpha + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, \theta_{m})}.
+\end{align*}
+
+**(e) Why is (d) not exactly $1/(n+1)$, or is it?**
+
+
+This is not exactly $1/(n+1)$ because of the influence of the $\theta$ prior.
+If we set the prior parameters $\alpha = \theta_{m} = 0$ then we get,
+
+\begin{align*}
+\text{Prob}(Y_{n+1} > Y_{(n)} \mid Y_{1}, \dots Y_{n}) & 1 - \frac{\alpha +n  }{ \alpha + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, \theta_{m})} \\
+  & = 1 - \frac{0 +n  }{ 0 + n + 1 } \frac{ Y_{(n)} }{  \max(Y_{(n)}, 0)} \\
+  & = 1 - \frac{  n}{n+1  } \\
+  & =\frac{ 1 }{  n+1}.
+\end{align*}
+
+
+
+
+
+**2. Download the daily weather data from RDU Airport**
+
+
+
+**(a) Plot the sample correlation between daily minimum (TMIN) and maximum (TMAX) temperature by month.**
+
+```{r, warning=FALSE, message=FALSE}
+library(scales)
+library(dplyr)
+library(ggplot2)
+file <- "https://www4.stat.ncsu.edu/~bjreich/ST740/RDU.csv"
+dat <- read.csv(url(file))
+TMAX <- dat[,2]/10
+TMIN <- dat[,3]/10
+MONTH <- dat[,4]
+DATE = dat[,1]
+weather = data.frame(date = DATE,temp_max = TMAX,temp_min = TMIN,month = MONTH)
+
+weather = weather %>% group_by(month) %>% mutate(correlation = cor(temp_max,temp_min))
+
+ggplot(weather, aes(x=month, y=correlation)) + geom_line() + geom_point() + ggtitle("Correlation by Month")+ scale_x_continuous(breaks= pretty_breaks())
+
+```
+
+**(b) Let $Y = (T_{MIN}, T_{MAX})$ be a bivariate response and fit the model $Y \mid \Sigma \sim \text{Normal}(\overline{ Y }, \Sigma)$ where $\overline{ Y }$ is the sample mean of $Y$  (Say it is fixed and known) and $\Sigma$ is the unknown $2 \times 2$ covariance matrix. Specify a conjugate family of prior distribution for $\Sigma$ and derive the corresponding posterior.**
+
+__Hint: Recall that for vector $a$ and square matrices $B$ and $C$ that $a^{\top}Ba = \text{tr}( a^{T} B a  ) = \text{tr}( Baa^{\top}  )$ and $\text{tr}( a^{\top}B ) + \text{tr}(a^{\top} C  ) = \text{tr}(a^{\top} (B+C)  )$.__
+
+The data likelihood is
+
+\begin{align*}
+f(Y \mid \Sigma) & \propto \mid \Sigma \mid^{-n/2} \exp \Big\{  -\frac{ 1 }{  2}(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\}.
+\end{align*}
+
+Then take a $\Sigma \sim \text{InverseWishart}(\Psi, \nu)$ prior.
+The posterior is 
+
+\begin{align*}
+p(\Sigma \mid Y) & \propto \mid \Sigma \mid^{-n/2} \exp \Big\{  -\frac{ 1 }{  2}(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\}
+  \mid \Sigma \mid ^{-(\nu + p + 1) / 2} 
+  \exp \Big\{  -\frac{ 1 }{ 2 } \text{tr}(\Psi \Sigma^{-1}  ) \Big\} \\
+  & = \exp \Big(  -\frac{ 1 }{  2}\Big[ \text{tr}\Big\{(Y - \overline{ Y })^{\top} \Sigma^{-1} (Y - \overline{ Y })\Big\} + \text{tr}(\Psi \Sigma^{-1})  \Big]\Big)
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big(  -\frac{ 1 }{  2}\Big[ \text{tr}\Big\{ \Sigma^{-1} (Y - \overline{ Y })(Y - \overline{ Y })^{\top}\Big\} + \text{tr}(\Sigma^{-1} \Psi\Big)  \Big]\Big)
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big\{  -\frac{ 1 }{  2}\Big( \text{tr}\Big[ \Sigma^{-1} \Big\{(Y - \overline{ Y })(Y - \overline{ Y })^{\top}+ \Psi  \Big\} \Big]  \Big)\Big\} 
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} \\
+  & = \exp \Big\{  -\frac{ 1 }{  2}\Big( \text{tr}\Big[ \Big\{ \Psi + (Y - \overline{ Y })(Y - \overline{ Y })^{\top} \Big\} \Sigma^{-1} \Big]  \Big)\Big\} 
+  \mid \Sigma \mid ^{-(\nu + n + p + 1) / 2} .
+
+\end{align*}
+
+Thus, the posterior is $\Sigma \mid Y \sim \text{InverseWishart}( \Psi +( Y - \overline{ Y })(Y - \overline{ Y })^{\top} , \nu + n)$.
+
+**(c) Select an uninformative prior distribution and summarize the induced prior distribution on the correlation $\rho = \Sigma_{12} / \sqrt{ \Sigma_{11}\Sigma_{22} }$ in figure.**
+
+We choose an uninformative prior of $\psi = I_{p}$ and $\nu = p+1$, which is a $U_{p}(0,1)$.
+We sample our $\Sigma$'s from the posterior distribution derived in part (a).
+
+```{r, warning=FALSE, message=FALSE}
+library(MCMCpack)
+set.seed(919)
+S   <- 100000
+p = 2
+
+# https://www4.stat.ncsu.edu/~bjreich/ST740/covariance.html
+# these values of nu and Psi put a uniform(0,1) prior on Sigma
+nu = p+1
+Psi= diag(p)
+n = length(TMAX)
+
+y = array(c(weather$temp_min, weather$temp_max), dim=c(n,2))
+ybar = array(c(mean(y[,1]), mean(y[,2])), dim=c(1,2))
+
+sum_mat = array(0, dim=c(p,p))
+
+for(i in 1:n){
+  sum_mat = sum_mat + t(y[i,] - ybar) %*% (y[i,] - ybar)
+}
+
+
+
+Sig <- array(0,c(S,p,p))
+SigInv <- Sig
+
+for(s in 1:S){
+  #  Sample inverse gamma from wishart (with inverse params)
+   SigInv[s,,] <- rwish(nu + n, solve(Psi + sum_mat))
+   
+   # invert to get back sigma 
+   Sig[s,,]    <- solve(SigInv[s,,])
+}
+
+rho = Sig[,1,2]/sqrt(Sig[,1,1] * Sig[,2,2])
+
+rho_mean = mean(rho)
+rho_sd = sd(rho)
+rho_lower = rho_mean - qnorm(0.975) * rho_sd
+rho_upper = rho_mean + qnorm(0.975) * rho_sd
+
+
+ggplot(data.frame(rho)) + 
+  geom_histogram(aes(x=rho, color="Uninformative"), alpha=0.3, fill="blue") +
+  labs(x = "rho") +
+  theme(legend.title=element_blank())
+
+# paste0(round(rho_mean, digits=3), " | ", round(rho_sd, digits=3), " | (", round(rho_lower, digits=3), " , ", round(rho_upper, digits=3), ") |")
+```
+
+
+|  | Posterior Mean | Posterior SD | 95% credible set |
+|------:|-----:|---------:|------:|
+|  uninformative prior $\rho$  | 0.895 | 0.001 | (0.892 , 0.897) |
+
+Since the 95% credible set does not contain 0, there is statistically signification correlation between the variables.
+
+**(d) Fit the model to the temperature data separately by month (including monthly $\overline{Y  }$) and plot the posterior distribution of the correlation between $T_{MIN}$ and $T_{MAX}$ $(\rho)$ by month. Is there a statistically significant correlation between these variables? Are there statistically significant differences by month?**
+
+
+
+```{r, warning=FALSE, message=FALSE}
+set.seed(919)
+S   <- 10000
+p = 2
+
+# https://www4.stat.ncsu.edu/~bjreich/ST740/covariance.html
+# these values of nu and Psi put a uniform(0,1) prior on Sigma
+nu = p+1
+Psi= diag(p)
+n = length(TMAX)
+rho_df = data.frame()
+rho$rho=0
+rho$month=0
+
+for(month in 1:12){
+
+  weather_month = weather %>% filter(month == month) 
+  y = array(c(weather_month$temp_min, weather_month$temp_max), dim=c(n,2))
+  ybar = array(c(mean(y[,1]), mean(y[,2])), dim=c(1,2))
+  
+  sum_mat = array(0, dim=c(p,p))
+  
+  for(i in 1:n){
+    sum_mat = sum_mat + t(y[i,] - ybar) %*% (y[i,] - ybar)
+  }
+  
+  
+  
+  Sig <- array(0,c(S,p,p))
+  SigInv <- Sig
+  
+  for(s in 1:S){
+    #  Sample inverse gamma from wishart (with inverse params)
+     SigInv[s,,] <- rwish(nu + n, solve(Psi + sum_mat))
+     
+     # invert to get back sigma 
+     Sig[s,,]    <- solve(SigInv[s,,])
+  }
+  
+  rho = Sig[,1,2]/sqrt(Sig[,1,1] * Sig[,2,2])
+  temp_df = data.frame(rho=rho, month=rep(month, length(rho)))
+  rho_df = rbind(rho_df,temp_df)
+
+  rho_mean = mean(rho)
+  rho_sd = sd(rho)
+  rho_lower = rho_mean - qnorm(0.975) * rho_sd
+  rho_upper = rho_mean + qnorm(0.975) * rho_sd
+
+  # print(paste0("| month ", month , " | ",round(rho_mean, digits=7), " | ", round(rho_sd, digits=7), " | (", round(rho_lower, digits=7), " , ", round(rho_upper, digits=7), ") |"))
+}
+
+rho_df$month = as.factor(rho_df$month)
+ggplot(rho_df, aes(x=month, y=rho)) + 
+ geom_boxplot()
+```
+
+Note that up to 3 significant digits, all of the posterior mean, standard deviations, and credible sets are the same for each month.
+
+|  $\rho$ | Posterior Mean | Posterior SD | 95% credible set |
+|------:|-----:|---------:|------:|
+| month 1 | 0.8952212 | 0.0011858 | (0.892897 , 0.8975453) |
+| month 2 | 0.8952215 | 0.0011909 | (0.8928874 , 0.8975556) |
+| month 3 | 0.8952159 | 0.0011936 | (0.8928765 , 0.8975552) |
+| month 4 | 0.8952117 | 0.001183 | (0.8928931 , 0.8975304) |
+| month 5 | 0.8952102 | 0.0011851 | (0.8928874 , 0.8975329) |
+| month 6 | 0.8952032 | 0.0011935 | (0.892864 , 0.8975423) |
+| month 7 | 0.8952212 | 0.0011699 | (0.8929282 , 0.8975141) |
+| month 8 | 0.8952268 | 0.0011995 | (0.8928759 , 0.8975778) |
+| month 9 | 0.8952331 | 0.0011971 | (0.8928869 , 0.8975794) |
+| month 10 | 0.8952031 | 0.0011803 | (0.8928898 , 0.8975164) |
+| month 11 | 0.8952115 | 0.0011852 | (0.8928885 , 0.8975345) |
+| month 12 | 0.8952084 | 0.0011812 | (0.8928933 , 0.8975235) |
